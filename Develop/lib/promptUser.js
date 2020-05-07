@@ -1,5 +1,4 @@
 const inquirer = require("inquirer");
-const Employee = require("./Employee");
 const Engineer = require("./Engineer");
 const Intern = require("./Intern");
 const Manager = require("./Manager");
@@ -19,31 +18,43 @@ const promptEngineerQuestions = () => {
 const initialData = await promptInitialQuestions();
 const managerData = await promptManagerQuestions();
 const internData = await promptInternQuestions();
-const engineerData = await promptManagerQuestions();
+const engineerData = await promptEngineerQuestions();
 let keepAdding = true;
 
+function newManager (managerData) {
+    const manager = new Manager(managerData.managerName, managerData.managerId, managerData.managerEmail, managerData.officeNumber);
+    return manager;
+}
+function newEngineer (engineerData) {
+    const engineer = new Engineer(engineerData.engineerName, engineerData.engineerId, engineerData.engineerEmail, engineerData.githubName);
+    return engineer;
+}
+function newIntern (internData) {
+    const intern = new Intern(internData.internName, internData.internId, internData.internEmail, internData.school);
+    return intern;
+}
+
 while(keepAdding) {
-    if(initialQuestions.typeOfEmployee === "Done Adding") {
+    promptInitialQuestions();
+    if(initialData.typeOfEmployee === "Done Adding") {
         keepAdding = false;
-    }
-    if(initialData.typeOfEmployee === "Manager") {
-        
-    } 
-    else if () {
-    
-    }
-    else if() {
-    
+    } else {
+        if(initialData.typeOfEmployee === "Manager") {
+            promptManagerQuestions();
+            newManager(managerData);
+        }
+        else if(initialData.typeOfEmployee === "Engineer") {
+            promptEngineerQuestions();
+            newEngineer(engineerData);
+        }
+        else {
+            promptInternQuestions();
+            newIntern(internData);
+        }
     }
 }
 
-
 let initialQuestions = [
-    {
-        type: "input",
-        message: "How many employees do you have on your development team?",
-        name: "numberEmployees"
-    },
     {
         type: "checkbox",
         message: "What type of employee would you like to add next?",
@@ -81,63 +92,49 @@ let engineerQuestions = [
 ]
 
 let internQuestions = [
-
+    {
+        type:"input",
+        message:"What's this Interns's name?",
+        name: "internName"
+    },
+    {
+        type:"input",
+        message:"What's this Intern's id?",
+        name: "internId"
+    },
+    {
+        type:"input",
+        message:"What's this Interns's email address?",
+        name: "engineerEmail"
+    },
+    {
+        type:"input",
+        message:"Where is this Intern going to school?",
+        name: "school"
+    }
 ]
 
 let managerQuestions = [
-
-]
     {
-        type: "input",
-        message: "Enter a project description.",
-        name: "description"
+        type:"input",
+        message:"What's this Manager's name?",
+        name: "managerName"
     },
     {
-        type: "input",
-        message: "How will you install your program?",
-        name: "installation"
+        type:"input",
+        message:"What's this Managers's id?",
+        name: "managerId"
     },
     {
-        type: "input",
-        message: "How are you going to use this project?",
-        name: "usage"
+        type:"input",
+        message:"What's this Managers's email address?",
+        name: "managerEmail"
     },
     {
-        type: "checkbox",
-        message: "What type of licensing are you using for this project?",
-        name: "licensing",
-        choices: [
-            "None",
-            "MIT",
-            "APACHE_2.0",
-            "GPL_3.0",
-            "BSD3",
-            "Other"
-        ]
-    },
-    {
-        type: "input",
-        message: "Authors?",
-        name: "authors"
-    },
-    {
-        type: "input",
-        message: "How can others contribute?",
-        name: "contributors"
-    },
-    {
-        type: "input",
-        message: "Tests?",
-        name: "tests"
-    },
-    {
-        type: "input",
-        message: "Questions?",
-        name: "questions"
-    },
-    {
-        type: "input",
-        message: "Where should the user report issues?",
-        name: "reporting"
+        type:"input",
+        message:"What's this Manager's office number?",
+        name: "officeNumber"
     }
 ]
+    
+
