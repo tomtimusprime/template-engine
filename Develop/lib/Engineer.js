@@ -15,8 +15,5 @@ class Engineer extends Employee {
 
 }
 
-const engineer1 = new Engineer("Tom", 1, "tom@apple.com", "tomtimusprime" );
-console.log(engineer1.gitHub);
-
 module.exports = Engineer;
 

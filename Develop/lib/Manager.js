@@ -13,7 +13,4 @@ class Manager extends Employee {
     }
 }
 
-const manager1 = new Manager(3, "test@test.org", "office 1");
-console.log(manager1);
-
 module.exports = Manager;

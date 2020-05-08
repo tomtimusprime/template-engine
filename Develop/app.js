@@ -9,10 +9,155 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+let keepAdding = true;
+let employeesArray = [];
+
+let initialQuestions = [
+    {
+        type: "checkbox",
+        message: "What type of employee would you like to add next?",
+        name: "typeOfEmployee",
+        choices: [
+            "Manager",
+            "Engineer",
+            "Intern",
+            "Done Adding"
+        ]
+    }
+]
+
+let engineerQuestions = [
+    {
+        type: "input",
+        message: "What's this Engineer's name?",
+        name: "engineerName"
+    },
+    {
+        type: "input",
+        message: "What's this Engineer's id?",
+        name: "engineerId"
+    },
+    {
+        type: "input",
+        message: "What's this Engineer's gitHub name?",
+        name: "githubName"
+    },
+    {
+        type: "input",
+        message: "What's this Engineer's email address?",
+        name: "engineerEmail"
+    }
+]
+
+let internQuestions = [
+    {
+        type: "input",
+        message: "What's this Interns's name?",
+        name: "internName"
+    },
+    {
+        type: "input",
+        message: "What's this Intern's id?",
+        name: "internId"
+    },
+    {
+        type: "input",
+        message: "What's this Interns's email address?",
+        name: "engineerEmail"
+    },
+    {
+        type: "input",
+        message: "Where is this Intern going to school?",
+        name: "school"
+    }
+]
+
+let managerQuestions = [
+    {
+        type: "input",
+        message: "What's this Manager's name?",
+        name: "managerName"
+    },
+    {
+        type: "input",
+        message: "What's this Managers's id?",
+        name: "managerId"
+    },
+    {
+        type: "input",
+        message: "What's this Managers's email address?",
+        name: "managerEmail"
+    },
+    {
+        type: "input",
+        message: "What's this Manager's office number?",
+        name: "officeNumber"
+    }
+]
 
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
+
+const promptInitialQuestions = () => {
+    return inquirer.prompt(initialQuestions);
+}
+const promptManagerQuestions = () => {
+    return inquirer.prompt(managerQuestions);
+}
+const promptInternQuestions = () => {
+    return inquirer.prompt(internQuestions);
+}
+const promptEngineerQuestions = () => {
+    return inquirer.prompt(engineerQuestions);
+}
+
+
+
+function newManager(managerData) {
+    const manager = new Manager(managerData.managerName, managerData.managerId, managerData.managerEmail, managerData.officeNumber);
+    return manager;
+}
+function newEngineer(engineerData) {
+    const engineer = new Engineer(engineerData.engineerName, engineerData.engineerId, engineerData.engineerEmail, engineerData.githubName);
+    return engineer;
+}
+function newIntern(internData) {
+    const intern = new Intern(internData.internName, internData.internId, internData.internEmail, internData.school);
+    return intern;
+}
+
+async function initialize() {
+    
+        const initialData = await promptInitialQuestions();
+        console.log(initialData);
+        if (initialData.typeOfEmployee[0] === "Manager") {
+            const managerData = await promptManagerQuestions();
+            employeesArray.push(newManager(managerData));
+        }
+        if (initialData.typeOfEmployee[0] === "Engineer") {
+            const engineerData = await promptEngineerQuestions();
+            employeesArray.push(newEngineer(engineerData));
+        }
+        if(initialData.typeOfEmployee[0] === "Intern") {
+            const internData = await promptInternQuestions();
+            employeesArray.push(newIntern(internData));
+        }
+        if (initialData.typeOfEmployee[0] !== "Done Adding") {
+            keepAdding = false;
+            initialize();
+        } else {
+            console.log(employeesArray);
+            console.log(render(employeesArray));
+            
+        }
+}
+
+console.log(`Welcome to the template engine. This program will ask you some questions about your development team and then generate your
+employees on an html page.`);
+initialize();
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
