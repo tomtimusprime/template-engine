@@ -6,7 +6,7 @@ const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+
 
 const render = require("./lib/htmlRenderer");
 let keepAdding = true;
@@ -63,7 +63,7 @@ let internQuestions = [
     {
         type: "input",
         message: "What's this Interns's email address?",
-        name: "engineerEmail"
+        name: "internEmail"
     },
     {
         type: "input",
@@ -128,29 +128,29 @@ function newIntern(internData) {
 }
 
 async function initialize() {
-    
-        const initialData = await promptInitialQuestions();
-        console.log(initialData);
-        if (initialData.typeOfEmployee[0] === "Manager") {
-            const managerData = await promptManagerQuestions();
-            employeesArray.push(newManager(managerData));
-        }
-        if (initialData.typeOfEmployee[0] === "Engineer") {
-            const engineerData = await promptEngineerQuestions();
-            employeesArray.push(newEngineer(engineerData));
-        }
-        if(initialData.typeOfEmployee[0] === "Intern") {
-            const internData = await promptInternQuestions();
-            employeesArray.push(newIntern(internData));
-        }
-        if (initialData.typeOfEmployee[0] !== "Done Adding") {
-            keepAdding = false;
-            initialize();
-        } else {
-            console.log(employeesArray);
-            console.log(render(employeesArray));
-            
-        }
+
+    const initialData = await promptInitialQuestions();
+    if (initialData.typeOfEmployee[0] === "Manager") {
+        const managerData = await promptManagerQuestions();
+        employeesArray.push(newManager(managerData));
+    }
+    if (initialData.typeOfEmployee[0] === "Engineer") {
+        const engineerData = await promptEngineerQuestions();
+        employeesArray.push(newEngineer(engineerData));
+    }
+    if (initialData.typeOfEmployee[0] === "Intern") {
+        const internData = await promptInternQuestions();
+        employeesArray.push(newIntern(internData));
+    }
+    if (initialData.typeOfEmployee[0] !== "Done Adding") {
+        keepAdding = false;
+        initialize();
+    } else {
+        console.log(employeesArray);
+        console.log(render(employeesArray));
+        fs.writeFileSync("./output/team.html", render(employeesArray));
+        const outputPath = path.join(OUTPUT_DIR, "team.html");
+    }
 }
 
 console.log(`Welcome to the template engine. This program will ask you some questions about your development team and then generate your
@@ -165,7 +165,7 @@ initialize();
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
+// `output` folder. You can use the variable `outputPath` above to target this location.
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
 
