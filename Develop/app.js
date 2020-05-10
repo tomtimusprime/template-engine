@@ -254,10 +254,7 @@ async function initialize() {
         keepAdding = false;
         initialize();
     } else {
-        console.log(employeesArray);
-        console.log(render(employeesArray));
-        fs.writeFileSync(outputPath, render(employeesArray));
-        
+        fs.writeFileSync(outputPath, render(employeesArray)); 
     }
 }
 
