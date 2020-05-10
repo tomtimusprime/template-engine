@@ -6,6 +6,7 @@ const path = require("path");
 const fs = require("fs");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 
 const render = require("./lib/htmlRenderer");
@@ -30,22 +31,58 @@ let engineerQuestions = [
     {
         type: "input",
         message: "What's this Engineer's name?",
-        name: "engineerName"
+        name: "engineerName",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid name.";
+            }
+            else {
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Engineer's id?",
-        name: "engineerId"
+        name: "engineerId",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid id.";
+            }
+            else { 
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Engineer's gitHub name?",
-        name: "githubName"
+        name: "githubName",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid gitHub username.";
+            }
+            else { 
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Engineer's email address?",
-        name: "engineerEmail"
+        name: "engineerEmail",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid email address.";
+            }
+            else if(value.search('@') === -1) {
+                return "Needs to be a valid email address with an @ symbol";
+            }
+            else { 
+                return true;
+            }
+        }
+
     }
 ]
 
@@ -53,22 +90,57 @@ let internQuestions = [
     {
         type: "input",
         message: "What's this Interns's name?",
-        name: "internName"
+        name: "internName",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid name.";
+            }
+            else {
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Intern's id?",
-        name: "internId"
+        name: "internId",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid id.";
+            }
+            else { 
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Interns's email address?",
-        name: "internEmail"
+        name: "internEmail",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid email address.";
+            }
+            else if(value.search('@') === -1) {
+                return "Needs to be a valid email address with an @ symbol";
+            }
+            else { 
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "Where is this Intern going to school?",
-        name: "school"
+        name: "school",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid school.";
+            }
+            else { 
+                return true;
+            }
+        }
     }
 ]
 
@@ -76,22 +148,58 @@ let managerQuestions = [
     {
         type: "input",
         message: "What's this Manager's name?",
-        name: "managerName"
+        name: "managerName",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid name.";
+            }
+            else {
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Managers's id?",
-        name: "managerId"
+        name: "managerId",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid id.";
+            }
+            else { 
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Managers's email address?",
-        name: "managerEmail"
+        name: "managerEmail",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid email address.";
+            }
+            else if(value.search('@') === -1) {
+                return "Needs to be a valid email address with an @ symbol";
+            }
+            else { 
+                return true;
+            }
+        }
     },
     {
         type: "input",
         message: "What's this Manager's office number?",
-        name: "officeNumber"
+        name: "officeNumber",
+        validate: function(value) {
+            if(!value) {
+                return "Please don't leave this field blank. Enter a valid office number.";
+            }
+            else {
+                parseInt(value);
+                return true;
+            }
+        }
     }
 ]
 
@@ -148,8 +256,8 @@ async function initialize() {
     } else {
         console.log(employeesArray);
         console.log(render(employeesArray));
-        fs.writeFileSync("./output/team.html", render(employeesArray));
-        const outputPath = path.join(OUTPUT_DIR, "team.html");
+        fs.writeFileSync(outputPath, render(employeesArray));
+        
     }
 }
 
