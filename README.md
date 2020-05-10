@@ -1,4 +1,4 @@
-# Unit 10 OOP Homework: Template Engine - Employee Summary
+# Template Engine - Employee Summary
 This is a simple program that takes user input through the command line and produces a web page composed of cards that display information regarding team members. It also uses Jest to run tests to make sure the classes and functions work properly. There is also validation for the input to ensure the right data is being passed.
 
 ## Instructions
